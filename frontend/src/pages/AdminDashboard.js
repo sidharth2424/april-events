@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/events');
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/events`);
       const data = await res.json();
       setEvents(data);
     } catch (err) {
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this event?")) {
       try {
-        await fetch(`http://localhost:5000/api/events/${id}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}`, {
           method: 'DELETE'
         });
         setEvents(events.filter(event => event._id !== id));
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${id}/status`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/events/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })

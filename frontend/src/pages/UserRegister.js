@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GeneralHeader from '../components/GeneralHeader';
 
 const UserRegister = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,13 @@ const UserRegister = () => {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fontLink = document.createElement('link');
+    fontLink.href = 'https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap';
+    fontLink.rel = 'stylesheet';
+    document.head.appendChild(fontLink);
+  }, []);
+
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
@@ -21,7 +29,7 @@ const UserRegister = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/users/register', {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -41,42 +49,57 @@ const UserRegister = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-80">
-        <h2 className="text-xl font-bold mb-4 text-center">User Registration</h2>
-        <input
-          name="name"
-          type="text"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full border p-2 mb-3"
-          required
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full border p-2 mb-3"
-          required
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full border p-2 mb-4"
-          required
-        />
-        <button type="submit" className="bg-blue-600 text-white w-full py-2 rounded">
-          Register
-        </button>
-        {message && <p className="mt-3 text-sm text-center text-gray-700">{message}</p>}
-      </form>
-    </div>
+    <>
+      <GeneralHeader />
+      <div 
+        className="min-h-screen flex items-center justify-center bg-white" 
+        style={{ fontFamily: "'Poppins', sans-serif" }}
+      >
+        <div 
+          className="bg-white border border-gray-300 shadow-2xl rounded-3xl p-10 w-96"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-center text-green-700">User Registration</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              name="name"
+              type="text"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700"
+              required
+            />
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700"
+              required
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 text-gray-700"
+              required
+            />
+            <button 
+              type="submit" 
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold text-lg transition duration-200"
+            >
+              🚀 Register
+            </button>
+          </form>
+          {message && (
+            <p className="mt-4 text-sm text-center text-gray-700">{message}</p>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 

@@ -2,10 +2,9 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema({
   name: String,
-  email: String,
-  phone: String,
+  email: String,           // ✅ keep email
   eventType: String,
-  guests: Number,
+  guests: Number,          // ✅ keep guests
   date: String,
   location: String,
   notes: String,

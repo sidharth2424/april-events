@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import UserHeader from '../components/UserHeader';
+import { useNavigate } from 'react-router-dom';
 
 const Eventform = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,7 @@ const Eventform = () => {
   });
 
   const [status, setStatus] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const playfairLink = document.createElement('link');
@@ -31,7 +32,7 @@ const Eventform = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/events', {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -49,33 +50,67 @@ const Eventform = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gray-100" style={{ fontFamily: 'Playfair Display, serif' }}>
-      <UserHeader />
+  const token = localStorage.getItem('userToken');
 
-      <div className="flex justify-center items-center pt-20 pb-10">
-        <div className="w-full max-w-2xl bg-white p-10 rounded-2xl shadow-lg">
-          <h2 className="text-4xl font-bold mb-6 text-center text-green-700">📋 Event Requirement Form</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" required />
-            <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" required />
-            <input type="text" name="eventType" placeholder="Type of Event" value={formData.eventType} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" required />
-            <input type="number" name="guests" placeholder="Number of Guests" value={formData.guests} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" required />
-            <input type="date" name="date" value={formData.date} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" required />
-            <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" required />
-            <textarea name="notes" placeholder="Additional Notes" value={formData.notes} onChange={handleChange}
-              className="w-full border border-gray-300 p-3 rounded-lg" rows="4"></textarea>
-            <button type="submit" className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 text-lg font-semibold">
-              Submit Event
-            </button>
-          </form>
-          {status && <p className="mt-4 text-center text-sm text-gray-700">{status}</p>}
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    navigate('/');
+  };
+
+  return (
+    <div className="min-h-screen" style={{ fontFamily: 'Playfair Display, serif', backgroundColor: '#e6f5ec' }}>
+      
+      {/* Header stays always on top */}
+      <div className="flex items-center bg-white shadow-md px-6 py-2">
+        <div className="cursor-pointer" onClick={() => navigate('/')}>
+          <img src={`${process.env.PUBLIC_URL}/aprileventslogo.jpeg`} alt="Logo" style={{ height: '80px' }} />
+        </div>
+        <div className="flex-grow"></div>
+        <div className="flex space-x-4">
+          <button className="bg-green-600 text-white px-4 py-2 rounded" onClick={() => navigate('/')}>Home</button>
+          {token ? (
+            <>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={() => navigate('/user-dashboard')}>Dashboard</button>
+              <button className="bg-red-600 text-white px-4 py-2 rounded" onClick={handleLogout}>Logout</button>
+            </>
+          ) : (
+            <>
+              <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={() => navigate('/user-login')}>User Login</button>
+              <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={() => navigate('/user-register')}>User Register</button>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Banner directly below header */}
+      <div className="w-full h-64 bg-gradient-to-r from-green-300 via-green-200 to-green-100 flex items-center justify-center shadow-lg">
+        <h1 className="text-5xl font-bold text-white drop-shadow-lg">Book Your Dream Event 🎉</h1>
+      </div>
+
+      {/* Main Form Section */}
+      <div className="flex justify-center items-center py-16">
+        <div className="w-full max-w-5xl bg-white p-10 rounded-2xl shadow-2xl flex">
+          
+          <div className="hidden md:block w-1/2 pr-6">
+            <img src={`${process.env.PUBLIC_URL}/boquet.jpg`} alt="Event Inspiration" className="rounded-xl shadow-lg" />
+          </div>
+
+          <div className="w-full md:w-1/2">
+            <h2 className="text-4xl font-bold mb-6 text-center text-green-700">📋 Event Requirement Form</h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input type="text" name="name" placeholder="Your Name" value={formData.name} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" required />
+              <input type="email" name="email" placeholder="Your Email" value={formData.email} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" required />
+              <input type="text" name="eventType" placeholder="Type of Event" value={formData.eventType} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" required />
+              <input type="number" name="guests" placeholder="Number of Guests" value={formData.guests} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" required />
+              <input type="date" name="date" value={formData.date} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" required />
+              <input type="text" name="location" placeholder="Location" value={formData.location} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" required />
+              <textarea name="notes" placeholder="Additional Notes" value={formData.notes} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-lg" rows="4"></textarea>
+              <button type="submit" className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 text-lg font-semibold">Submit Event</button>
+            </form>
+            {status && <p className="mt-4 text-center text-sm text-gray-700">{status}</p>}
+          </div>
         </div>
       </div>
     </div>
@@ -83,3 +118,4 @@ const Eventform = () => {
 };
 
 export default Eventform;
+

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import GeneralHeader from '../components/GeneralHeader';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
@@ -11,68 +12,62 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/events');
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/api/events`);
         const data = await res.json();
-
-        // ✅ Filter events by user email
         const userEvents = data.filter(event => event.email === userEmail);
         setEvents(userEvents);
       } catch (err) {
         console.error('Error fetching events:', err);
       }
     };
-
     fetchEvents();
   }, [userEmail]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    navigate('/');
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'Approved':
+        return <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm">Approved</span>;
+      case 'Pending':
+        return <span className="bg-yellow-400 text-white px-3 py-1 rounded-full text-sm">Pending</span>;
+      case 'Rejected':
+        return <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm">Rejected</span>;
+      default:
+        return <span className="bg-gray-400 text-white px-3 py-1 rounded-full text-sm">{status}</span>;
+    }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Welcome, {userName}</h1>
+    <div style={{
+      fontFamily: "'Poppins', sans-serif",
+      minHeight: '100vh',
+      background: 'linear-gradient(to top left, #f0fff4 40%, #d9fdd3 100%)'
+    }}>
+      <GeneralHeader />
 
-      {/* Button to fill new event */}
-      <button
-        onClick={() => navigate('/event-form')}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mr-2"
-      >
-        ➕ Fill New Event Form
-      </button>
+      <div className="p-10">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-green-700">Welcome, {userName} 🎉</h1>
+          <button 
+            onClick={() => navigate('/event-form')} 
+            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+            ➕ New Event
+          </button>
+        </div>
 
-      <button
-        onClick={handleLogout}
-        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
-      >
-        🚪 Logout
-      </button>
-
-      <button
-        onClick={() => navigate('/')}
-        className="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800"
-      >
-        ⬅️ Back to Home
-      </button>
-
-      <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-2">🗓️ Your Event Requests:</h2>
         {events.length === 0 ? (
           <p className="text-gray-600">No events submitted yet.</p>
         ) : (
-          <ul className="space-y-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event, idx) => (
-              <li key={idx} className="border p-4 rounded bg-white shadow-sm">
-                <p><strong>Type:</strong> {event.eventType}</p>
-                <p><strong>Date:</strong> {event.date}</p>
-                <p><strong>Guests:</strong> {event.guests}</p>
-                <p><strong>Status:</strong> <span className="font-semibold">{event.status}</span></p>
-              </li>
+              <div key={idx} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
+                <h3 className="text-xl font-semibold mb-2">{event.eventType}</h3>
+                <p className="text-gray-700"><strong>Date:</strong> {event.date}</p>
+                <p className="text-gray-700"><strong>Guests:</strong> {event.guests}</p>
+                <p className="text-gray-700"><strong>Location:</strong> {event.location}</p>
+                <div className="mt-4">{getStatusBadge(event.status)}</div>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>
@@ -80,3 +75,4 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
+
