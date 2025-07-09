@@ -56,7 +56,8 @@ const HomePage = () => {
               )}
             </div>
 
-            <Link to="/admin-login" className="text-gray-800 text-sm hover:text-green-600">Admin Login</Link>
+            {/* 🔒 Admin Login removed */}
+            {/* <Link to="/admin-login" className="text-gray-800 text-sm hover:text-green-600">Admin Login</Link> */}
           </div>
         </div>
       </nav>
