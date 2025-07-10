@@ -7,6 +7,11 @@ April Events is a full-stack event management platform where users can register,
 
 ---
 
+### 🌐 Live Demo
+
+👉 [Visit April Events Website](https://april-events.netlify.app/)
+
+
 ## 🚀 Features
 
 ### 👤 User Side
