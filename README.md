@@ -37,18 +37,36 @@ April Events is a full-stack event management platform where users can register,
 | React.js (w/ Tailwind CSS) | Node.js & Express | MongoDB (via Atlas) | JWT Auth, React Router, Lucide Icons |
 
 ---
-
 ## 📁 Folder Structure
+
+<details>
+<summary>Click to expand</summary>
+
+```plaintext
 april-events/
+├── backend/
+│   ├── models/
+│   ├── routes/
+│   └── server.js
 │
-├── backend/ # Express backend with routes and models
-├── frontend/ # React frontend with routing and components
-│ ├── public/ # Public assets (logo, hero image)
-│ ├── src/
-│ │ ├── pages/ # Pages: HomePage, EventForm, AdminDashboard, etc.
-│ │ └── App.js # Routing logic
-├── .env # Environment variables
-└── README.md # This file
+├── frontend/
+│   ├── public/
+│   │   ├── aprileventslogo.jpeg
+│   │   └── hero.jpg
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── HomePage.js
+│   │   │   ├── EventForm.js
+│   │   │   ├── AdminLogin.js
+│   │   │   ├── AdminDashboard.js
+│   │   │   ├── UserLogin.js
+│   │   │   └── UserRegister.js
+│   │   └── App.js
+│   └── package.json
+│
+├── .gitignore
+├── README.md
+└── .env (Not included in repo)
 
 
 Developed with 💚 by Sidharth M
