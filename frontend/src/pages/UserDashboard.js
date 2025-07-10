@@ -23,6 +23,13 @@ const UserDashboard = () => {
     fetchEvents();
   }, [userEmail]);
 
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    navigate('/user-login');
+  };
+
   const getStatusBadge = (status) => {
     switch (status) {
       case 'Approved':
@@ -47,11 +54,18 @@ const UserDashboard = () => {
       <div className="p-10">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-green-700">Welcome, {userName} 🎉</h1>
-          <button 
-            onClick={() => navigate('/event-form')} 
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
-            ➕ New Event
-          </button>
+          <div className="flex gap-4">
+            <button 
+              onClick={() => navigate('/event-form')} 
+              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+              ➕ New Event
+            </button>
+            <button 
+              onClick={handleLogout}
+              className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 font-semibold">
+              🔒 Logout
+            </button>
+          </div>
         </div>
 
         {events.length === 0 ? (
@@ -75,4 +89,3 @@ const UserDashboard = () => {
 };
 
 export default UserDashboard;
-
