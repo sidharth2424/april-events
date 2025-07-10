@@ -1,5 +1,8 @@
 # 🎉 April Events - Event Management Web Platform
 
+
+![April Events Banner](frontend/public/homepage.png)
+
 April Events is a full-stack event management platform where users can register, submit event requirements, and track event status. Admins can view, filter, manage, and update events via a secure dashboard. The website is responsive and optimized for both desktop and mobile users.
 
 ---
@@ -49,9 +52,4 @@ april-events/
 
 
 Developed with 💚 by Sidharth M
-
-
-
-Ask ChatGPT
-
 
