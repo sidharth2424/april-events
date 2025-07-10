@@ -58,6 +58,11 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    navigate('/admin-login');
+  };
+
   const filteredEvents = events.filter(e => {
     const matchStatus = filterStatus ? e.status === filterStatus : true;
     const matchSearch = searchTerm
@@ -69,14 +74,23 @@ const AdminDashboard = () => {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+      {/* Top Controls */}
+      <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 mb-6">
         <h2 className="text-2xl font-bold">📋 Admin Dashboard</h2>
-        <button
-          onClick={() => navigate('/')}
-          className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700"
-        >
-          ⬅️ Back to Home
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={() => navigate('/')}
+            className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700"
+          >
+            ⬅️ Back to Home
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+          >
+            🚪 Logout
+          </button>
+        </div>
       </div>
 
       {/* Filter Controls */}
