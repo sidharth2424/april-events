@@ -10,6 +10,7 @@ const UserRegister = () => {
   });
 
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const UserRegister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/api/users/register`, {
         method: 'POST',
@@ -45,6 +47,8 @@ const UserRegister = () => {
     } catch (err) {
       console.error(err);
       setMessage('❌ Something went wrong.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,9 +59,7 @@ const UserRegister = () => {
         className="min-h-screen flex items-center justify-center bg-white" 
         style={{ fontFamily: "'Poppins', sans-serif" }}
       >
-        <div 
-          className="bg-white border border-gray-300 shadow-2xl rounded-3xl p-10 w-96"
-        >
+        <div className="bg-white border border-gray-300 shadow-2xl rounded-3xl p-10 w-96">
           <h2 className="text-3xl font-bold mb-6 text-center text-green-700">User Registration</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <input
@@ -89,9 +91,12 @@ const UserRegister = () => {
             />
             <button 
               type="submit" 
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold text-lg transition duration-200"
+              disabled={loading}
+              className={`w-full py-3 rounded-lg font-semibold text-lg transition duration-200 ${
+                loading ? 'bg-green-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'
+              } text-white`}
             >
-              🚀 Register
+              {loading ? '⏳ Registering...' : '🚀 Register'}
             </button>
           </form>
           {message && (
