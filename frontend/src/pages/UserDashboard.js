@@ -44,40 +44,55 @@ const UserDashboard = () => {
   };
 
   return (
-    <div style={{
-      fontFamily: "'Poppins', sans-serif",
-      minHeight: '100vh',
-      background: 'linear-gradient(to top left, #f0fff4 40%, #d9fdd3 100%)'
-    }}>
+    <div
+      className="min-h-screen"
+      style={{
+        fontFamily: "'Poppins', sans-serif",
+        background: 'linear-gradient(to top left, #f0fff4 40%, #d9fdd3 100%)'
+      }}
+    >
       <GeneralHeader />
 
-      <div className="p-10">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-green-700">Welcome, {userName} 🎉</h1>
-          <div className="flex gap-4">
-            <button 
-              onClick={() => navigate('/event-form')} 
-              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 font-semibold">
+      <div className="px-4 sm:px-6 md:px-10 py-10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-green-700">
+            Welcome, {userName} 🎉
+          </h1>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => navigate('/event-form')}
+              className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 font-semibold"
+            >
               ➕ New Event
             </button>
-            <button 
+            <button
               onClick={handleLogout}
-              className="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600 font-semibold">
+              className="bg-red-500 text-white px-5 py-2 rounded-lg hover:bg-red-600 font-semibold"
+            >
               🔒 Logout
             </button>
           </div>
         </div>
 
         {events.length === 0 ? (
-          <p className="text-gray-600">No events submitted yet.</p>
+          <p className="text-gray-600 text-sm sm:text-base">No events submitted yet.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event, idx) => (
-              <div key={idx} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300">
-                <h3 className="text-xl font-semibold mb-2">{event.eventType}</h3>
-                <p className="text-gray-700"><strong>Date:</strong> {event.date}</p>
-                <p className="text-gray-700"><strong>Guests:</strong> {event.guests}</p>
-                <p className="text-gray-700"><strong>Location:</strong> {event.location}</p>
+              <div
+                key={idx}
+                className="bg-white p-5 rounded-xl shadow-md hover:shadow-xl transition duration-300"
+              >
+                <h3 className="text-lg font-semibold mb-2">{event.eventType}</h3>
+                <p className="text-gray-700 text-sm">
+                  <strong>Date:</strong> {event.date}
+                </p>
+                <p className="text-gray-700 text-sm">
+                  <strong>Guests:</strong> {event.guests}
+                </p>
+                <p className="text-gray-700 text-sm">
+                  <strong>Location:</strong> {event.location}
+                </p>
                 <div className="mt-4">{getStatusBadge(event.status)}</div>
               </div>
             ))}
