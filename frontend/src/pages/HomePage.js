@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Heart, Briefcase, PartyPopper } from "lucide-react";
+import { Menu, Heart, Briefcase, PartyPopper, Quote } from "lucide-react";
 
 const HomePage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,6 +44,34 @@ const HomePage = () => {
     },
   ];
 
+  const galleryImages = [
+    "gallery/krishna.png",
+    "gallery/birthday.jpeg",
+    "gallery/girl-boy.jpeg",
+    "gallery/girl.jpeg",
+  ];
+
+  const testimonials = [
+    {
+      quote:
+        "April Events turned our dream wedding into a reality. Every detail was perfect, and we didn't have to worry about a thing!",
+      name: "Jessica & Tom",
+      event: "Wedding Celebration",
+    },
+    {
+      quote:
+        "The most professional and creative team I've ever worked with. Our annual corporate gala was a massive success thanks to them.",
+      name: "David Chen",
+      event: "Corporate Gala",
+    },
+    {
+      quote:
+        "They organized my 30th birthday party, and it was legendary! The theme, decor, and management were flawless. Highly recommend!",
+      name: "Sarah Miller",
+      event: "Birthday Party",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: "Playfair Display, serif" }}>
       {/* Navbar */}
@@ -57,6 +85,7 @@ const HomePage = () => {
             <a href="#home" className="hover:text-green-600 text-gray-800">Home</a>
             <a href="#about" className="hover:text-green-600 text-gray-800">About</a>
             <a href="#services" className="hover:text-green-600 text-gray-800">Services</a>
+            <a href="#gallery" className="hover:text-green-600 text-gray-800">Gallery</a>
           </div>
 
           <img
@@ -87,11 +116,12 @@ const HomePage = () => {
             <a href="#home" className="block py-2 text-gray-800 hover:text-green-600">Home</a>
             <a href="#about" className="block py-2 text-gray-800 hover:text-green-600">About</a>
             <a href="#services" className="block py-2 text-gray-800 hover:text-green-600">Services</a>
+            <a href="#gallery" className="block py-2 text-gray-800 hover:text-green-600">Gallery</a>
           </div>
         )}
       </nav>
 
-      {/* ✅ Hero Section (Explore Services removed) */}
+      {/* Hero Section */}
       <section
         id="home"
         className="flex flex-col justify-center items-center text-center text-white h-screen bg-cover bg-center px-4"
@@ -101,8 +131,7 @@ const HomePage = () => {
         }}
       >
         <h1 className="text-4xl sm:text-6xl md:text-7xl mb-4 animate-fadeIn">
-          Welcome to{" "}
-          <span style={{ fontFamily: "Monoton, cursive" }}>April Events</span>
+          Welcome to <span style={{ fontFamily: "Monoton, cursive" }}>April Events</span>
         </h1>
         <p className="text-2xl sm:text-3xl md:text-4xl mb-8 font-light animate-fadeIn">
           Crafting Memorable Celebrations
@@ -137,6 +166,44 @@ const HomePage = () => {
               <div className="mb-4 flex justify-center">{service.icon}</div>
               <h3 className="text-2xl font-semibold mb-3">{service.title}</h3>
               <p className="text-gray-700">{service.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Gallery Section */}
+      <section id="gallery" className="py-20 bg-green-50 text-center px-4">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-green-700">
+          Our Memorable Moments
+        </h2>
+        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
+          {galleryImages.map((src, idx) => (
+            <div key={idx} className="overflow-hidden rounded-lg shadow-md group">
+              <img
+                src={`${process.env.PUBLIC_URL}/${src}`}
+                alt={`Gallery image ${idx + 1}`}
+                className="w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110"
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials Section (no navbar link) */}
+      <section id="testimonials" className="py-20 bg-white text-center px-4">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-green-700">
+          What Our Clients Say
+        </h2>
+        <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
+          {testimonials.map((testimonial, idx) => (
+            <div
+              key={idx}
+              className="bg-gray-50 p-6 rounded-lg shadow-md text-left relative"
+            >
+              <Quote className="absolute top-4 left-4 text-green-200" size={36} />
+              <p className="text-gray-600 italic mb-4 mt-6">"{testimonial.quote}"</p>
+              <p className="font-bold text-green-800">{testimonial.name}</p>
+              <p className="text-sm text-gray-500">{testimonial.event}</p>
             </div>
           ))}
         </div>
