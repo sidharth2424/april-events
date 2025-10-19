@@ -44,31 +44,24 @@ const HomePage = () => {
     },
   ];
 
-  const galleryImages = [
-    "gallery/krishna.png",
-    "gallery/birthday.jpeg",
-    "gallery/girl-boy.jpeg",
-    "gallery/girl.jpeg",
-  ];
-
   const testimonials = [
     {
       quote:
-        "April Events turned our dream wedding into a reality. Every detail was perfect, and we didn't have to worry about a thing!",
-      name: "Jessica & Tom",
+        "I had a really great experience with April events, they have arranged and organised the event so well which made my big day look beautiful. A hearty thanks to the organiser for the trust, approach and hardwork behind it. Loved it so much",
+      name: "Ashique Aash",
       event: "Wedding Celebration",
     },
     {
       quote:
-        "The most professional and creative team I've ever worked with. Our annual corporate gala was a massive success thanks to them.",
-      name: "David Chen",
-      event: "Corporate Gala",
+        "They handled all the last-minute changes for the birthday party so smoothly. They were super welcoming, listened to exactly what we wanted, and just made it happen. It was amazing to see all our ideas come to life.",
+      name: "Bhagath Prakash",
+      event: "Birthday Celebration",
     },
     {
       quote:
-        "They organized my 30th birthday party, and it was legendary! The theme, decor, and management were flawless. Highly recommend!",
-      name: "Sarah Miller",
-      event: "Birthday Party",
+        "The groom’s people were also very happy with the decoration and all the other arrangements made with such care",
+      name: "Mamatha Krishnakurup",
+      event: "Wedding Celebration",
     },
   ];
 
@@ -171,25 +164,23 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Gallery Section */}
+      {/* Gallery Section as Single Video */}
       <section id="gallery" className="py-20 bg-green-50 text-center px-4">
         <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-green-700">
           Our Memorable Moments
         </h2>
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          {galleryImages.map((src, idx) => (
-            <div key={idx} className="overflow-hidden rounded-lg shadow-md group">
-              <img
-                src={`${process.env.PUBLIC_URL}/${src}`}
-                alt={`Gallery image ${idx + 1}`}
-                className="w-full h-full object-cover transition-transform duration-500 transform group-hover:scale-110"
-              />
-            </div>
-          ))}
+        <div className="max-w-4xl mx-auto rounded-lg shadow-md overflow-hidden">
+          <video
+            src={`${process.env.PUBLIC_URL}/gallery/celebration.mp4`} // replace with your video file
+            className="w-full h-full object-cover"
+            autoPlay
+            loop
+            controls
+          />
         </div>
       </section>
 
-      {/* Testimonials Section (no navbar link) */}
+      {/* Testimonials Section with interactive effect */}
       <section id="testimonials" className="py-20 bg-white text-center px-4">
         <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-green-700">
           What Our Clients Say
@@ -198,7 +189,7 @@ const HomePage = () => {
           {testimonials.map((testimonial, idx) => (
             <div
               key={idx}
-              className="bg-gray-50 p-6 rounded-lg shadow-md text-left relative"
+              className="bg-gray-50 p-6 rounded-lg shadow-md text-left relative transform transition duration-300 hover:scale-105 hover:shadow-xl hover:bg-green-50 cursor-pointer"
             >
               <Quote className="absolute top-4 left-4 text-green-200" size={36} />
               <p className="text-gray-600 italic mb-4 mt-6">"{testimonial.quote}"</p>
