@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Menu, Heart, Briefcase, PartyPopper, Quote } from "lucide-react";
+import { Menu, Heart, Briefcase, PartyPopper, Quote, Phone, MapPin } from "lucide-react";
 
 const HomePage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -73,6 +73,7 @@ const HomePage = () => {
             <span onClick={() => scrollToSection("about")} className="hover:text-green-600 text-gray-800 cursor-pointer">About</span>
             <span onClick={() => scrollToSection("services")} className="hover:text-green-600 text-gray-800 cursor-pointer">Services</span>
             <span onClick={() => scrollToSection("gallery")} className="hover:text-green-600 text-gray-800 cursor-pointer">Gallery</span>
+            <span onClick={() => scrollToSection("contact")} className="hover:text-green-600 text-gray-800 cursor-pointer">Contact</span>
           </div>
           <img src={`${process.env.PUBLIC_URL}/aprileventslogo.jpeg`} alt="April Events Logo" className="h-14 object-contain" />
         </div>
@@ -91,6 +92,7 @@ const HomePage = () => {
             <span onClick={() => scrollToSection("about")} className="block py-2 text-gray-800 hover:text-green-600 cursor-pointer">About</span>
             <span onClick={() => scrollToSection("services")} className="block py-2 text-gray-800 hover:text-green-600 cursor-pointer">Services</span>
             <span onClick={() => scrollToSection("gallery")} className="block py-2 text-gray-800 hover:text-green-600 cursor-pointer">Gallery</span>
+            <span onClick={() => scrollToSection("contact")} className="block py-2 text-gray-800 hover:text-green-600 cursor-pointer">Contact</span>
           </div>
         )}
       </nav>
@@ -147,8 +149,19 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-green-50 text-center px-4">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-10 text-green-700">Contact Us</h2>
+        <div className="max-w-2xl mx-auto space-y-6 text-gray-700">
+          <p className="flex items-center justify-center gap-3"><Phone size={24} className="text-green-700" /> 8089520032</p>
+          <p className="flex items-center justify-center gap-3"><Phone size={24} className="text-green-700" /> 9645780032</p>
+          <p className="flex items-center justify-center gap-3"><Phone size={24} className="text-green-700" /> 9072200045</p>
+          <p className="flex items-center justify-center gap-3"><MapPin size={24} className="text-green-700" /> Near Govt Hospital, Vadakara</p>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-green-50 text-center py-6 text-gray-700 text-sm border-t border-green-100">
+      <footer className="bg-white text-center py-6 text-gray-700 text-sm border-t border-green-100">
         © {new Date().getFullYear()} April Events | Crafted with ❤️ for your celebrations
       </footer>
     </div>
