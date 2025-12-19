@@ -7,21 +7,15 @@ import {
   Quote,
   Phone,
   MapPin,
+  Copy,
+  Instagram,
 } from "lucide-react";
 
 const HomePage = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [navScrolled, setNavScrolled] = useState(false);
   const videoRef = useRef(null);
 
-  // Navbar scroll effect
-  useEffect(() => {
-    const handleScroll = () => setNavScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Enforce permanent mute
+  // Permanently mute video
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.muted = true;
@@ -65,49 +59,33 @@ const HomePage = () => {
   const testimonials = [
     {
       quote:
-        "I had a really great experience with April Events, they have arranged and organised the event so well which made my big day look beautiful.",
+        "April Events arranged everything beautifully and made our big day unforgettable.",
       name: "Ashique Aash",
       event: "Wedding Celebration",
     },
     {
       quote:
-        "They handled all the last-minute changes for the birthday party so smoothly. Everything was perfect.",
+        "They handled all last-minute changes smoothly. Everything was perfect.",
       name: "Bhagath Prakash",
       event: "Birthday Celebration",
     },
     {
       quote:
-        "The groom’s people were also very happy with the decoration and arrangements.",
+        "The decorations and arrangements were done with great care and detail.",
       name: "Mamatha Krishnakurup",
       event: "Wedding Celebration",
     },
   ];
 
-  // Smooth scroll
   const scrollToSection = (id) => {
     const target = document.getElementById(id);
     if (!target) return;
-
-    const targetPosition = target.offsetTop;
-    const startPosition = window.scrollY;
-    const distance = targetPosition - startPosition;
-    const duration = 1000;
-    let startTime = null;
-
-    const easeInOutCubic = (t) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    const animation = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const run =
-        easeInOutCubic(timeElapsed / duration) * distance + startPosition;
-      window.scrollTo(0, run);
-      if (timeElapsed < duration) requestAnimationFrame(animation);
-    };
-
-    requestAnimationFrame(animation);
+    target.scrollIntoView({ behavior: "smooth" });
     setMobileMenuOpen(false);
+  };
+
+  const copyText = (text) => {
+    navigator.clipboard.writeText(text);
   };
 
   return (
@@ -115,57 +93,36 @@ const HomePage = () => {
       className="min-h-screen bg-white select-none"
       style={{ fontFamily: "Playfair Display, serif" }}
     >
-      {/* Navbar */}
-      <nav
-        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 ${
-          navScrolled
-            ? "backdrop-blur-md bg-white/80 shadow"
-            : "bg-white"
-        }`}
-      >
+      {/* NAVBAR (ALWAYS SOLID WHITE) */}
+      <nav className="w-full fixed top-0 left-0 z-50 bg-white shadow-md">
         <div className="hidden sm:flex justify-between items-center px-10 py-4">
-          <div className="flex items-center space-x-8">
-            <span onClick={() => scrollToSection("home")} className="cursor-pointer">
-              Home
-            </span>
-            <span onClick={() => scrollToSection("about")} className="cursor-pointer">
-              About
-            </span>
-            <span
-              onClick={() => scrollToSection("services")}
-              className="cursor-pointer"
-            >
-              Services
-            </span>
-            <span
-              onClick={() => scrollToSection("gallery")}
-              className="cursor-pointer"
-            >
-              Gallery
-            </span>
-            <span
-              onClick={() => scrollToSection("contact")}
-              className="cursor-pointer"
-            >
-              Contact
-            </span>
+          <div className="flex items-center space-x-8 text-gray-800">
+            {["home", "about", "services", "gallery", "contact"].map((item) => (
+              <span
+                key={item}
+                onClick={() => scrollToSection(item)}
+                className="cursor-pointer hover:text-green-600"
+              >
+                {item.charAt(0).toUpperCase() + item.slice(1)}
+              </span>
+            ))}
           </div>
           <img
             src={`${process.env.PUBLIC_URL}/aprileventslogo.jpeg`}
             alt="April Events Logo"
-            className="h-14"
+            className="h-14 object-contain"
           />
         </div>
 
         {/* Mobile Navbar */}
-        <div className="flex sm:hidden justify-between items-center px-6 py-4">
+        <div className="flex sm:hidden justify-between items-center px-6 py-4 bg-white">
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             <Menu size={28} />
           </button>
           <img
             src={`${process.env.PUBLIC_URL}/aprileventslogo.jpeg`}
             alt="Logo"
-            className="h-12"
+            className="h-12 object-contain"
           />
         </div>
 
@@ -175,7 +132,7 @@ const HomePage = () => {
               <span
                 key={item}
                 onClick={() => scrollToSection(item)}
-                className="block py-2 cursor-pointer"
+                className="block py-2 cursor-pointer hover:text-green-600"
               >
                 {item.charAt(0).toUpperCase() + item.slice(1)}
               </span>
@@ -184,10 +141,10 @@ const HomePage = () => {
         )}
       </nav>
 
-      {/* Hero */}
+      {/* HERO */}
       <section
         id="home"
-        className="flex flex-col justify-center items-center text-center text-white h-screen bg-cover bg-center px-4"
+        className="pt-24 flex flex-col justify-center items-center text-center text-white h-screen bg-cover bg-center px-4"
         style={{
           backgroundImage: `url(${process.env.PUBLIC_URL}/hero.jpg)`,
           fontFamily: "Festive, cursive",
@@ -200,21 +157,24 @@ const HomePage = () => {
         <p className="text-3xl">Crafting Memorable Celebrations</p>
       </section>
 
-      {/* About */}
+      {/* ABOUT */}
       <section id="about" className="py-20 bg-green-50 text-center px-4">
         <h2 className="text-4xl text-green-700 mb-6">About Us</h2>
         <p className="max-w-3xl mx-auto text-lg text-gray-700">
-          We specialize in weddings, corporate events, and private celebrations
-          with passion and precision.
+          April Events specializes in weddings, corporate events, and private
+          celebrations with elegance and precision.
         </p>
       </section>
 
-      {/* Services */}
+      {/* SERVICES */}
       <section id="services" className="py-20 text-center px-4">
         <h2 className="text-4xl text-green-700 mb-10">Our Services</h2>
         <div className="flex flex-col md:flex-row justify-center gap-10">
           {services.map((s, i) => (
-            <div key={i} className="w-72 p-8 bg-green-50 rounded-xl shadow-lg">
+            <div
+              key={i}
+              className="w-72 p-8 bg-green-50 rounded-xl shadow-lg"
+            >
               <div className="mb-4 flex justify-center">{s.icon}</div>
               <h3 className="text-2xl font-semibold mb-3">{s.title}</h3>
               <p>{s.desc}</p>
@@ -223,7 +183,7 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Gallery – PERMANENTLY SILENT VIDEO */}
+      {/* GALLERY */}
       <section id="gallery" className="py-20 bg-green-50 text-center px-4">
         <h2 className="text-4xl text-green-700 mb-10">
           Our Memorable Moments
@@ -238,13 +198,12 @@ const HomePage = () => {
             playsInline
             controls={false}
             disablePictureInPicture
-            controlsList="nodownload noplaybackrate nofullscreen"
             className="w-full h-full object-cover"
           />
         </div>
       </section>
 
-      {/* Testimonials */}
+      {/* TESTIMONIALS */}
       <section className="py-20 text-center px-4">
         <h2 className="text-4xl text-green-700 mb-10">Testimonials</h2>
         <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
@@ -259,20 +218,66 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Contact */}
+      {/* CONTACT */}
       <section id="contact" className="py-20 bg-green-50 text-center px-4">
         <h2 className="text-4xl text-green-700 mb-10">Contact Us</h2>
-        <div className="space-y-4">
-          <p className="flex justify-center gap-3">
-            <Phone /> 8089520032
-          </p>
-          <p className="flex justify-center gap-3">
-            <MapPin /> Near Govt Hospital, Vadakara
-          </p>
+
+        <div className="max-w-2xl mx-auto space-y-6 text-gray-700">
+          {["8089520032", "9645780032"].map((num) => (
+            <div key={num} className="flex justify-center items-center gap-3">
+              <Phone className="text-green-700" />
+              <a href={`tel:${num}`} className="hover:underline">
+                {num}
+              </a>
+              <Copy
+                size={18}
+                className="cursor-pointer"
+                onClick={() => copyText(num)}
+              />
+            </div>
+          ))}
+
+          <div className="flex justify-center items-center gap-3">
+            <Instagram className="text-green-700" />
+            <a
+              href="https://www.instagram.com/april_events_vadakara"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              @april_events_vadakara
+            </a>
+            <Copy
+              size={18}
+              className="cursor-pointer"
+              onClick={() =>
+                copyText("https://www.instagram.com/april_events_vadakara")
+              }
+            />
+          </div>
+
+          <div className="flex justify-center items-center gap-3">
+            <MapPin className="text-green-700" />
+            <a
+              href="https://maps.app.goo.gl/iyJjsFs9UHi3cJN16"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              View Location on Google Maps
+            </a>
+            <Copy
+              size={18}
+              className="cursor-pointer"
+              onClick={() =>
+                copyText("https://maps.app.goo.gl/iyJjsFs9UHi3cJN16")
+              }
+            />
+          </div>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* FOOTER */}
       <footer className="text-center py-6 border-t">
         © {new Date().getFullYear()} April Events
       </footer>
