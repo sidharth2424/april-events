@@ -169,7 +169,8 @@ const HomePage = () => {
       {/* SERVICES */}
       <section id="services" className="py-20 text-center px-4">
         <h2 className="text-4xl text-green-700 mb-10">Our Services</h2>
-        <div className="flex flex-col md:flex-row justify-center gap-10">
+        <div className="flex flex-col items-center md:flex-row md:justify-center gap-10">
+
           {services.map((s, i) => (
             <div
               key={i}
